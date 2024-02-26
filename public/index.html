@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Snippet Service</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="news-container">
+        <h1 id="news-title">Welcome to News Snippets</h1>
+        <div id="news-snippet-container">
+            <!-- The news snippets will be inserted here -->
+        </div>
+        <button onclick="getNews('sports')">Sports News</button>
+        <button onclick="getNews('politics')">Political News</button>
+    </div>
+
+    <script>
+        async function getNews(category) {
+            const response = await fetch(`/api/news/${category}`);
+            const articles = await response.json();
+
+            // Clear the previous content
+            const snippetContainer = document.getElementById('news-snippet-container');
+            snippetContainer.innerHTML = '';
+
+            if (articles.length > 0) {
+                articles.forEach(article => {
+                    // Create the HTML for the article snippet
+                    const articleHtml = `
+                        <div class="article">
+                            <h2><a href="${article.url}" target="_blank">${article.title}</a></h2>
+                            <img src="${article.image}" alt="${article.title}" style="max-width: 100%; height: auto;">
+                            <p>${article.snippet}</p>
+                        </div>
+                    `;
+                    // Append the article HTML to the snippet container
+                    snippetContainer.innerHTML += articleHtml;
+                });
+            } else {
+                // Show a message if no articles were found
+                snippetContainer.innerHTML = '<p>No news available.</p>';
+            }
+        }
+    </script>
+</body>
+</html>
