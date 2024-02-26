@@ -8,41 +8,63 @@
 </head>
 <body>
     <div class="news-container">
-        <h1 id="news-title">Welcome to News Snippets</h1>
-        <div id="news-snippet-container">
-            <!-- The news snippets will be inserted here -->
+        <div class="news-switch-buttons">
+            <button onclick="getNews('sports')">Sports News</button>
+            <button onclick="getNews('politics')">Political News</button>
         </div>
-        <button onclick="getNews('sports')">Sports News</button>
-        <button onclick="getNews('politics')">Political News</button>
+        <h1 id="news-title">Welcome to News Snippets</h1>
+        <div id="news-article-container">
+            <!-- The news article will be inserted here -->
+        </div>
+        <div class="navigation-buttons">
+            <button id="prev-button" onclick="prevArticle()">Previous</button>
+            <button id="next-button" onclick="nextArticle()">Next</button>
+        </div>
     </div>
 
     <script>
+        let currentArticleIndex = 0;
+        let articles = [];
+
         async function getNews(category) {
             const response = await fetch(`/api/news/${category}`);
-            const articles = await response.json();
+            articles = await response.json();
+            currentArticleIndex = 0; // Reset to the first article
+            displayArticle();
+        }
 
-            // Clear the previous content
-            const snippetContainer = document.getElementById('news-snippet-container');
-            snippetContainer.innerHTML = '';
-
+        function displayArticle() {
             if (articles.length > 0) {
-                articles.forEach(article => {
-                    // Create the HTML for the article snippet
-                    const articleHtml = `
-                        <div class="article">
-                            <h2><a href="${article.url}" target="_blank">${article.title}</a></h2>
-                            <img src="${article.image}" alt="${article.title}" style="max-width: 100%; height: auto;">
-                            <p>${article.snippet}</p>
-                        </div>
-                    `;
-                    // Append the article HTML to the snippet container
-                    snippetContainer.innerHTML += articleHtml;
-                });
+                const article = articles[currentArticleIndex];
+                const articleHtml = `
+                    <div class="article">
+                        <h2><a href="${article.url}" target="_blank">${article.title}</a></h2>
+                        <img src="${article.image}" alt="${article.title}" style="max-width: 100%; height: auto;">
+                        <p>${article.snippet}</p>
+                    </div>
+                `;
+                document.getElementById('news-article-container').innerHTML = articleHtml;
             } else {
-                // Show a message if no articles were found
-                snippetContainer.innerHTML = '<p>No news available.</p>';
+                document.getElementById('news-article-container').innerHTML = '<p>No news available.</p>';
             }
         }
+
+        function nextArticle() {
+            if (currentArticleIndex < articles.length - 1) {
+                currentArticleIndex++;
+                displayArticle();
+            }
+        }
+
+        function prevArticle() {
+            if (currentArticleIndex > 0) {
+                currentArticleIndex--;
+                displayArticle();
+            }
+        }
+
+        // Initial call to load default category news
+        // getNews('sports'); // Uncomment to load sports news by default
     </script>
 </body>
 </html>

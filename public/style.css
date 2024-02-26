@@ -1,22 +1,59 @@
 body {
     font-family: Arial, sans-serif;
+    background-color: #f4f4f4; /* Light grey background */
+    color: #333; /* Dark grey text */
 }
 
 .news-container {
-    margin: 20px;
+    margin: 20px auto; /* Center the container */
     padding: 20px;
     border: 1px solid #ddd;
+    background-color: #fff; /* White background for the container */
+    width: 80%; /* Adjust width as per requirement */
+    max-width: 800px; /* Maximum width */
+}
+
+.news-switch-buttons, .navigation-buttons {
+    text-align: center; /* Center align the buttons */
+    margin-bottom: 20px; /* Spacing below the buttons */
 }
 
 button {
-    margin-right: 10px;
-    padding: 10px;
+    margin: 5px; /* Space around buttons */
+    padding: 10px 15px; /* Padding inside buttons */
     background-color: #007bff;
     color: white;
     border: none;
+    border-radius: 5px; /* Rounded corners */
     cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth background color change on hover */
 }
 
 button:hover {
-    opacity: 0.8;
+    background-color: #0056b3; /* Darker blue on hover */
+    color: #ffffff;
+}
+
+.article {
+    margin-bottom: 20px; /* Spacing between articles or at the bottom */
+}
+
+.article h2 a {
+    color: #007bff; /* Link color */
+    text-decoration: none; /* No underline */
+}
+
+.article h2 a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+.article img {
+    max-width: 100%; /* Ensure image does not overflow its container */
+    height: auto; /* Keep image aspect ratio */
+    margin-top: 10px; /* Space above the image */
+}
+
+/* Additional styles for better readability and structure */
+p {
+    line-height: 1.6; /* Improve readability of paragraphs */
 }
